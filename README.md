@@ -28,7 +28,7 @@
 ├── readme.md
 └── requirements.txt
 ```
-## Running Pose_IDCard
+## Running
 ### Experimental environment
 * ubuntu16.04 + pytorch1.9.0+ cuda10.2 + python3.8
 * You might need 18g memory
