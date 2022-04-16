@@ -7,31 +7,8 @@ import argparse
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import functional as F
 from .data_augment import PairCompose, PairToTensor, PairRandomCrop, PairRandomHorizontalFilp
-from .data_augment import random_noise_levels, add_noise
+from .data_augment import normalization, read_image, random_noise_levels, add_noise
 import random
-
-def normalization(input_data, black_level, white_level):
-    output_data = (input_data.astype(float) - black_level) / (white_level - black_level)
-    return output_data
-
-def inv_normalization(input_data, black_level, white_level):
-    output_data = np.clip(input_data, 0., 1.) * (white_level - black_level) + black_level
-    output_data = output_data.astype(np.uint16)
-    return output_data
-
-def read_image(input_path):
-
-    raw = rawpy.imread(input_path)
-    raw_data = raw.raw_image_visible
-    height = raw_data.shape[0]
-    width = raw_data.shape[1]
-
-    raw_data_expand = np.expand_dims(raw_data, axis=2)
-    raw_data_expand_c = np.concatenate((raw_data_expand[0:height:2, 0:width:2, :],
-                                        raw_data_expand[0:height:2, 1:width:2, :],
-                                        raw_data_expand[1:height:2, 0:width:2, :],
-                                        raw_data_expand[1:height:2, 1:width:2, :]), axis=2)
-    return raw_data_expand_c, height, width
 
 
 class DngDataset(Dataset):
@@ -74,7 +51,6 @@ class DngDataset(Dataset):
         if self.transform:
             image, label = self.transform(image, label)
         
-     
         return image, label
 
     @staticmethod
