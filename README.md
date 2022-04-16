@@ -4,17 +4,10 @@ a contest about image denoising
 # directory structure
 ```
 ├── checkpoints
-│   └── UNet
-│       ├── Best.pth
-│       └── model.pth
 ├── data
 │   ├── train
 │   │   ├── ground_truth
-│   │   │   ├── 0_gt.dng
-│   │   │   └── 99_gt.dng
 │   │   └── noisy
-│   │       ├── 0_noise.dng
-│   │       └── 99_noise.dng
 │   └── valid
 │       ├── ground_truth
 │       └── noisy
