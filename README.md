@@ -1,5 +1,6 @@
 # zte_img_denoise
 a contest about image denoising
+link[知乎](https://zhuanlan.zhihu.com/p/499577965?)
 
 ## Directory structure
 ```
