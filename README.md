@@ -1,4 +1,4 @@
-# ZTE_img_denoise
+# zte_img_denoise
 * A contest about image denoising <br>
 * For details, see [知乎][中兴捧月-图像去噪](https://zhuanlan.zhihu.com/p/499577965?)
 
