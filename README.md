@@ -32,7 +32,7 @@ a contest about image denoising
 * Run `pip install -r requirement.txt` to install required modules.
 
 ### Train
-* In the 'demo_code' folder, run
+* In the `demo_code` folder, run
 ```bash
   python main.py
 ```
