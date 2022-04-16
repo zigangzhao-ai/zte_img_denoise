@@ -10,6 +10,7 @@
     pip install -r requirements.txt
 
 3.运行baseline
+
     python ./demo_code/testTorch.py --model_path=./models/th_model.pth \ 
                                     --black_level=1024 \
                                     --white_level=16383 \
