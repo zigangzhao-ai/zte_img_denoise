@@ -42,7 +42,7 @@
   python main.py
 ```
 ### Test
-* Place trained model at the `checkpoints/UNet/`.
+* Place trained model at the `checkpoints/UNet/`
 
 * In the `demo_code` folder, run 
 ```bash
