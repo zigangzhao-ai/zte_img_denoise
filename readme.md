@@ -10,13 +10,6 @@
     pip install -r requirements.txt
 
 3.运行baseline
-    
-    python ./demo_code/testTF.py --model_path=./models/tf_model.h5 \
-                                 --black_level=1024 \
-                                 --white_level=16383 \
-                                 --input_path=./data/noise/demo_noise.dng \
-                                 --output_path=./data/result/demo_tf_res.dng \
-                                 --ground_path=./data/gt/demo.dng
     python ./demo_code/testTorch.py --model_path=./models/th_model.pth \ 
                                     --black_level=1024 \
                                     --white_level=16383 \
