@@ -34,12 +34,12 @@ a contest about image denoising
 ### Train
 * In the 'demo_code' folder, run
 ```bash
-python main.py
+  python main.py
 ```
 ### Test
 * Place trained model at the checkpoints/UNet/`.
 
 * In the `demo_code` folder, run 
 ```bash
-python test.py 
+  python test.py 
 ```
