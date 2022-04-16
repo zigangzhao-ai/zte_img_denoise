@@ -26,9 +26,7 @@ a contest about image denoising
 │   └── valid.py
 ├── readme.md
 └── requirements.txt
-
 ```
-
 ## Running Pose_IDCard
 ### Start
 * Run `pip install -r requirement.txt` to install required modules.
