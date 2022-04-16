@@ -1,7 +1,7 @@
 # zte_img_denoise
 a contest about image denoising
 
-# directory structure
+# 1.directory structure
 ```
 ├── checkpoints
 ├── data
@@ -28,5 +28,8 @@ a contest about image denoising
 └── requirements.txt
 
 ```
-# start
-## train
+# 2.start
+## 2.1 train
+'''
+Follow the directory structure above
+'''
