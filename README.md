@@ -1,7 +1,7 @@
 # zte_img_denoise
 a contest about image denoising
 
-# dir
+# directory structure
 ```
 ├── checkpoints
 │   └── UNet
@@ -35,4 +35,4 @@ a contest about image denoising
 └── requirements.txt
 
 ```
-
+#
