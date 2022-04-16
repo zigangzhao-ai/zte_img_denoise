@@ -1,7 +1,7 @@
 # zte_img_denoise
 a contest about image denoising
 
-# 1.directory structure
+## Directory structure
 ```
 ├── checkpoints
 ├── data
@@ -28,8 +28,20 @@ a contest about image denoising
 └── requirements.txt
 
 ```
-# 2.start
-## 2.1 train
-'''
-Follow the directory structure above
-'''
+
+## Running Pose_IDCard
+### Start
+* Run `pip install -r requirement.txt` to install required modules.
+
+### Train
+In the 'demo_code' folder, run
+```bash
+python main.py
+```
+### Test
+Place trained model at the checkpoints/UNet/`.
+
+In the `demo_code` folder, run 
+```bash
+python test.py 
+```
