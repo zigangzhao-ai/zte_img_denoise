@@ -39,8 +39,9 @@ class DngDataset(Dataset):
         ##add noise
         noise = random.random() < 0.5
         if noise:        
-            shot_noise, read_noise = random_noise_levels()
-            image  = add_noise(image, shot_noise, read_noise)
+            # shot_noise, read_noise = random_noise_levels()
+            # image  = add_noise(image, shot_noise, read_noise)
+            image = add_noise(image)
         image = image.view(-1, height//2, width//2, 4).permute(0, 3, 1, 2)
      
         # image = torch.from_numpy(np.transpose(image.reshape(-1, height//4, width//4, 16), (0, 3, 1, 2))).float()

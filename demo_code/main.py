@@ -2,7 +2,9 @@ import os
 import torch
 import argparse
 from torch.backends import cudnn
-from unetTorch import Unet
+from net.Unet import Unet
+from net.UNetplusplus import UNetplusplus
+from net.Unet_ACNet import Unet_ACNet
 from train_unet import _train
 from test_unet import _test
 
@@ -40,16 +42,16 @@ if __name__ == '__main__':
 
     # Train
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--learning_rate', type=float, default=1e-4)
-    parser.add_argument('--weight_decay', type=float, default=5e-2) ##
-    parser.add_argument('--num_epoch', type=int, default=300)
+    parser.add_argument('--learning_rate', type=float, default=2e-4) # default=1e-4
+    parser.add_argument('--weight_decay', type=float, default=1e-8) ## default=0, 5e-2
+    parser.add_argument('--num_epoch', type=int, default=400)
     parser.add_argument('--print_freq', type=int, default=10)
     parser.add_argument('--num_worker', type=int, default=4)
     parser.add_argument('--save_freq', type=int, default=10)
     parser.add_argument('--valid_freq', type=int, default=10)
     parser.add_argument('--resume', type=str, default='')
     parser.add_argument('--gamma', type=float, default=0.5)
-    parser.add_argument('--lr_steps', type=list, default=[(x+2) * 40 for x in range(300//50)])
+    parser.add_argument('--lr_steps', type=list, default=[(x+2) * 40 for x in range(400//50)])
 
     # Test
     parser.add_argument('--test_model', type=str, default='../checkpoints/UNet/Best.pth')
