@@ -7,7 +7,7 @@ import argparse
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import functional as F
 from .data_augment import PairCompose, PairToTensor, PairRandomCrop, PairRandomHorizontalFilp
-from .data_augment import normalization, read_image, random_noise_levels, add_noise
+from .data_process import normalization, read_image, random_noise_levels, add_noise
 import random
 
 
