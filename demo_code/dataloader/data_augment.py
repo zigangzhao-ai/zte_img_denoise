@@ -15,17 +15,18 @@ class PairRandomCrop(transforms.RandomCrop):
             label = F.pad(label, self.padding, self.fill, self.padding_mode)
 
         # pad the width if needed
-        if self.pad_if_needed and image.size[0] < self.size[1]:
-            image = F.pad(image, (self.size[1] - image.size[0], 0), self.fill, self.padding_mode)
-            label = F.pad(label, (self.size[1] - label.size[0], 0), self.fill, self.padding_mode)
+        n, c, h0, w0 = image.shape
+        if self.pad_if_needed and h0 < self.size[1]:
+            image = F.pad(image, (self.size[1] - h0, 0), self.fill, self.padding_mode)
+            label = F.pad(label, (self.size[1] - h0, 0), self.fill, self.padding_mode)
         # pad the height if needed
-        if self.pad_if_needed and image.size[1] < self.size[0]:
-            image = F.pad(image, (0, self.size[0] - image.size[1]), self.fill, self.padding_mode)
-            label = F.pad(label, (0, self.size[0] - image.size[1]), self.fill, self.padding_mode)
+        if self.pad_if_needed and w0 < self.size[0]:
+            image = F.pad(image, (0, self.size[0] - w0), self.fill, self.padding_mode)
+            label = F.pad(label, (0, self.size[0] - w0), self.fill, self.padding_mode)
 
-        i, j, h, w = self.get_params(image, self.size)
-
-        return F.crop(image, i, j, h, w), F.crop(label, i, j, h, w)
+        # i, j, h, w = self.get_params(image, self.size)
+        # return F.crop(image, i, j, h, w), center_crop(label, i, j, h0, w0)
+        return F.center_crop(image, [h0, w0]), F.center_crop(label, [h0, w0])
 
 
 class PairCompose(transforms.Compose):

@@ -80,6 +80,14 @@ def denoise_raw_pure(input_path, output_path,  model_path, black_level, white_le
         # net.load_state_dict(torch.load(model_path))
         state_dict = torch.load(model_path)
         net.load_state_dict(state_dict['model'],strict=False)
+        '''
+        #for unet_acnet
+        state_dict = torch.load(model_path)
+        net.load_state_dict(state_dict['model'])
+        for m in net.modules():
+            if hasattr(m, 'switch_to_deploy'):
+                m.switch_to_deploy()
+        '''
 
     net.eval()
 

@@ -8,7 +8,7 @@ from utils import Adder
 from skimage.metrics import peak_signal_noise_ratio
 from dataloader.data_process import inv_normalization,write_image,read_image,write_back_dng
 
-def _valid(model, args, ep):
+def _valid(model, args, ep, net='unet'):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     gopro = valid_dataloader(args.data_dir, batch_size=1, num_workers=0)
     model.eval()
@@ -26,8 +26,11 @@ def _valid(model, args, ep):
             input_img = input_img.to(device)
             if not os.path.exists(os.path.join(args.result_dir, '%d' % (ep))):
                 os.mkdir(os.path.join(args.result_dir, '%d' % (ep)))
-
-            pred = model(input_img)
+            if net == 'unet':
+                pred = model(input_img)
+            if net == 'mprnet':
+                pred = model(input_img)
+                pred = torch.clamp(pred[0], 0, 1)
             image, height, width = read_image('../data/train/ground_truth/1_gt.dng')
             result_data = pred.cpu().detach().numpy().transpose(0, 2, 3, 1)
             result_data = result_data.reshape(-1, height // 2, width // 2, 4)

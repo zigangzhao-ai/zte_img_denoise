@@ -100,7 +100,7 @@ def train_dataloader(path, batch_size=4, num_workers=0, use_transform=True):
     if use_transform:
         transform = PairCompose(
             [
-                PairRandomCrop((1736,2312)),
+                PairRandomCrop((1736,2312), pad_if_needed=True),
                 PairRandomHorizontalFilp(p=0.5),
             ]
         )
