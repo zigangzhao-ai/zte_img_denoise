@@ -65,8 +65,8 @@ class SAM(nn.Module):
     def __init__(self, n_feat, kernel_size, bias):
         super(SAM, self).__init__()
         self.conv1 = conv(n_feat, n_feat, kernel_size, bias=bias)
-        self.conv2 = conv(n_feat, 3, kernel_size, bias=bias)
-        self.conv3 = conv(3, n_feat, kernel_size, bias=bias)
+        self.conv2 = conv(n_feat, 4, kernel_size, bias=bias)
+        self.conv3 = conv(4, n_feat, kernel_size, bias=bias)
 
     def forward(self, x, x_img):
         x1 = self.conv1(x)
@@ -238,8 +238,8 @@ class ORSNet(nn.Module):
 
 
 ##########################################################################
-class MPRNet(nn.Module):
-    def __init__(self, in_c=4, out_c=4, n_feat=80, scale_unetfeats=48, scale_orsnetfeats=32, num_cab=8, kernel_size=3, reduction=4, bias=False):
+class MPRNet(nn.Module): # n_feat=80, scale_unetfeats=48, scale_orsnetfeats=32
+    def __init__(self, in_c=4, out_c=4, n_feat=40, scale_unetfeats=24, scale_orsnetfeats=16, num_cab=8, kernel_size=3, reduction=4, bias=False):
         super(MPRNet, self).__init__()
 
         act = nn.PReLU()

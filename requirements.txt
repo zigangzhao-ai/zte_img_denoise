@@ -53,3 +53,4 @@ wincertstore==0.2
 wrapt==1.13.3
 zipp==3.6.0
 setuptools==59.5.0
+warmup_scheduler

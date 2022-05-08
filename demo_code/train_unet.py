@@ -6,6 +6,8 @@ from utils import Adder, Timer, check_lr
 from torch.utils.tensorboard import SummaryWriter
 from valid import _valid
 import torch.nn.functional as F
+from warmup_scheduler import GradualWarmupScheduler
+import torch.optim as optim
 
 
 def _train(model, args):
@@ -14,15 +16,27 @@ def _train(model, args):
     # criterion = torch.nn.L1Loss()
     mse_criterion =  torch.nn.MSELoss(reduce=True, size_average=True)
     l1_criterion = torch.nn.L1Loss()
-    optimizer = torch.optim.Adam(model.parameters(),
+    optimizer = optim.Adam(model.parameters(),
                                  lr=args.learning_rate,
+                                 betas=(0.9, 0.999),
+                                 eps=1e-8,
                                  weight_decay=args.weight_decay,
-                                 betas=(0.9, 0.999))
-                
+                                 )
+    ######### Scheduler-warmup+cosine ###########
+    warmup_epochs = 3
+    scheduler_cosine = optim.lr_scheduler.CosineAnnealingLR(optimizer, args.num_epoch-warmup_epochs+40, eta_min=1e-6)
+    scheduler = GradualWarmupScheduler(optimizer, multiplier=1, total_epoch=warmup_epochs, after_scheduler=scheduler_cosine)
+    # scheduler.step()
+    ######### Scheduler-MultiStepLR ###########
+    # scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_steps, args.gamma)
+             
     dataloader = train_dataloader(args.data_dir, args.batch_size, args.num_worker)
     max_iter = len(dataloader)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_steps, args.gamma)
     epoch = 1
+    if args.pretrained:
+        state_dict = torch.load(args.pretrained)
+        model.load_state_dict(state_dict['model'])
+
     if args.resume:
         state = torch.load(args.resume)
         epoch = state['epoch']

@@ -5,7 +5,10 @@ from torch.backends import cudnn
 from net.Unet import Unet
 from net.UNetplusplus import UNetplusplus
 from net.Unet_ACNet import Unet_ACNet
-from train_unet import _train
+from net.TernausNet import UNet16
+from net.U2Net import U2NET
+from train_unet_splitpics import _train
+#from train_unet import _train
 from test_unet import _test
 
 def main(args):
@@ -20,13 +23,17 @@ def main(args):
         os.makedirs(args.model_save_dir)
     if not os.path.exists(args.result_dir):
         os.makedirs(args.result_dir)
-
-    model = Unet()
-    # print(model)
+    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    model_running = U2NET().to(device).train(False)
+    model = U2NET().to(device)
+    
     if torch.cuda.is_available():
         model.cuda()
     if args.mode == 'train':
-        _train(model, args)
+       _train(model, model_running, args) # for img_split
+       #_train(model, args) # for img_total
 
     elif args.mode == 'test':
         _test(model, args)
@@ -41,14 +48,15 @@ if __name__ == '__main__':
     parser.add_argument('--mode', default='train', choices=['train', 'test'], type=str)
 
     # Train
-    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--learning_rate', type=float, default=2e-4) # default=1e-4
     parser.add_argument('--weight_decay', type=float, default=1e-8) ## default=0, 5e-2
     parser.add_argument('--num_epoch', type=int, default=400)
-    parser.add_argument('--print_freq', type=int, default=10)
+    parser.add_argument('--print_freq', type=int, default=1)
     parser.add_argument('--num_worker', type=int, default=4)
     parser.add_argument('--save_freq', type=int, default=10)
     parser.add_argument('--valid_freq', type=int, default=10)
+    parser.add_argument('--pretrained', type=str, default='') #'../checkpoints/pretrained/pretrained.pth')
     parser.add_argument('--resume', type=str, default='')
     parser.add_argument('--gamma', type=float, default=0.5)
     parser.add_argument('--lr_steps', type=list, default=[(x+2) * 40 for x in range(400//50)])
