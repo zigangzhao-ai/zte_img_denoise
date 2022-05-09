@@ -7,9 +7,9 @@ from net.UNetplusplus import UNetplusplus
 from net.Unet_ACNet import Unet_ACNet
 from net.TernausNet import UNet16
 from net.U2Net import U2NET
-from train_unet_splitpics import _train
+from train_unet_split import _train
 #from train_unet import _train
-from test_unet import _test
+from test_unet_split import _test
 
 def main(args):
     # CUDNN

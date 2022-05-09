@@ -15,29 +15,18 @@ class CharbonnierLoss(nn.Module):
         loss = torch.mean(torch.sqrt((diff * diff) + (self.eps*self.eps)))
         return loss
 
-class EdgeLoss(nn.Module):
-    def __init__(self):
-        super(EdgeLoss, self).__init__()
-        k = torch.Tensor([[.05, .25, .4, .25, .05]])
-        self.kernel = torch.matmul(k.t(),k).unsqueeze(0).repeat(3,1,1,1)
-        if torch.cuda.is_available():
-            self.kernel = self.kernel.cuda()
-        self.loss = CharbonnierLoss()
+bce_loss = nn.MSELoss(size_average=True)
+def muti_mse_loss_fusion(d1, d2, d3, d4, d5, d6, labels_v):
+	# loss0 = bce_loss(d0,labels_v)
+	loss1 = bce_loss(d1,labels_v)
+	loss2 = bce_loss(d2,labels_v)
+	loss3 = bce_loss(d3,labels_v)
+	loss4 = bce_loss(d4,labels_v)
+	loss5 = bce_loss(d5,labels_v)
+	loss6 = bce_loss(d6,labels_v)
 
-    def conv_gauss(self, img):
-        n_channels, _, kw, kh = self.kernel.shape
-        img = F.pad(img, (kw//2, kh//2, kw//2, kh//2), mode='replicate')
-        return F.conv2d(img, self.kernel, groups=n_channels)
+	loss = loss1 + loss2 + loss3 + loss4 + loss5 + loss6
+	# print("l0: %3f, l1: %3f, l2: %3f, l3: %3f, l4: %3f, l5: %3f, l6: %3f\n"%(loss0.data[0],loss1.data[0],loss2.data[0],loss3.data[0],loss4.data[0],loss5.data[0],loss6.data[0]))
+	return loss1, loss
 
-    def laplacian_kernel(self, current):
-        filtered    = self.conv_gauss(current)    # filter
-        down        = filtered[:,:,::2,::2]               # downsample
-        new_filter  = torch.zeros_like(filtered)
-        new_filter[:,:,::2,::2] = down*4                  # upsample
-        filtered    = self.conv_gauss(new_filter) # filter
-        diff = current - filtered
-        return diff
 
-    def forward(self, x, y):
-        loss = self.loss(self.laplacian_kernel(x), self.laplacian_kernel(y))
-        return loss
