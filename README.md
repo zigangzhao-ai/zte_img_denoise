@@ -35,7 +35,8 @@
 ## Running
 ### Experimental environment
 * ubuntu16.04 + pytorch1.9.0+ cuda10.2 + python3.8
-* You might need 18g memory
+* You might need 18g memory if you're training with whole image
+* You can try splitting imgae training, the code has been open source
 ### Start
 * Run `conda create -n zte_contest python=3.8` to create virtual environment
 * Run `pip install -r requirement.txt -i https://pypi.tuna.tsinghua.edu.cn/simple` to install required modules.
